@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import './App.css'
+import Introduction from '../src/Introduction'
 
 function App() {
 
   return (
     <>
-      <h1 className=' text-red-900'>Hello</h1>
+    <Introduction/>
     </>
   )
 }
