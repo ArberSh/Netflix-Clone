@@ -15,7 +15,7 @@ export default {
     },
     extend: {
       backgroundImage:{
-        'Background-Netflix': "linear-gradient(to right bottom, rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.1)),url('/src/assets/Netflix-Background.jpg')"
+        'Background-Netflix': "linear-gradient(to right bottom, rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.3)),url('/src/assets/Netflix-Background.jpg')"
       },
     },
   },
