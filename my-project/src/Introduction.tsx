@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import Logo from "../src/assets/png-clipart-netflix-logo-netflix-television-show-streaming-media-film-netflix-logo-television-text-thumbnail-removebg-preview.png";
-
+import { auth } from "./init";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 type FormFields = {
     Firstname:string;
@@ -9,21 +10,37 @@ type FormFields = {
     Email:string;
     Password:string;
     ConfirmPassword:string;
-  }
+}
+
 
 function Introduction() {
-   
-  const { register,handleSubmit,formState:{errors} } = useForm<FormFields>();
+    const [Email, setEmail] = useState<string>('');
+    const [Password, setPassword] = useState<string>('');    
+    
+    const [clicked, SetClicked] = useState<Boolean>(false);
+    const [SignInclicked, SetSignInClicked] = useState<Boolean>(false);
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data)
-  };
+    const { register,handleSubmit,formState:{errors},watch,setValue } = useForm<FormFields>();
+    
+    const onSubmit: SubmitHandler<FormFields> = (data) => {
+        setValue("Email", data.Email);
+        setValue("Password", data.Password);
+    }
 
-  const [clicked, SetClicked] = useState<Boolean>(false);
-  const [SignInclicked, SetSignInClicked] = useState<Boolean>(false);
 
-  function Clicked() {
-    console.log("click");
+    function SignUp(){
+    createUserWithEmailAndPassword(auth, Email, Password)
+    .then((user)=> {
+        console.log(user);
+    
+    }).catch((error)=>{
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.error(errorCode, errorMessage);
+    })
+  }
+
+  function GetStarted() {
     SetClicked(true);
   }
 
@@ -32,7 +49,7 @@ function Introduction() {
   }
 
   return (
-    <div onSubmit={handleSubmit(onSubmit)} className=" bg-no-repeat bg-cover bg-Background-Netflix h-screen">
+    <div  className=" bg-no-repeat bg-cover bg-Background-Netflix h-screen">
       <div className=" flex justify-between items-center px-4">
         <img className="w-36" src={Logo} alt="" />
         <button onClick={SignInClicked} className=" font-semibold text-white w-20 h-10 bg-red">
@@ -41,7 +58,7 @@ function Introduction() {
       </div>
       {clicked ? (
         <div className="flex flex-col justify-center  items-center">
-          <form className=" p-10 bg-black flex flex-col items-start">
+          <form onSubmit={handleSubmit(onSubmit)} className=" p-10 bg-black flex flex-col items-start">
             <h1 className="text-white text-3xl font-bold">Sign Up</h1>
             <div className={` w-80 gap-4 flex mt-4 ${errors.Firstname || errors.Lastname ? "mb-2" : "mb-4"}`}>
                  
@@ -74,8 +91,10 @@ function Introduction() {
               placeholder="Email"        
               {...register("Email",{
                 required:"Email is required",
-                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                validate:(value) => value.includes("@") && value.includes(".")
+                pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Invalid email format",
+                  }
               })}
             />
               {errors.Email && <div className="text-red mb-2 font-bold">{errors.Email.message}</div>}
@@ -86,8 +105,11 @@ function Introduction() {
               placeholder="Password"
               {...register("Password",{
                 required:"Password is required",
-                minLength:8,
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+                minLength:{
+                    value: 8,
+                    message: "Password must be 8 characters long"
+                },
+                pattern: /^.{8,}$/
               })}
               />
               {errors.Password && <div className="text-red mb-2 font-bold">{errors.Password.message}</div>}
@@ -96,14 +118,16 @@ function Introduction() {
               type="password"
               id=""
               placeholder="Confirm Password"
-              {...register("ConfirmPassword",{required:"Confirm Password is required"
-                
+              {...register("ConfirmPassword",{required:"Confirm Password is required",validate: (val:string) => {if(watch('Password') != val){
+                return "Your password do not match";
+              }}
+               
               })}
               
             />
               {errors.ConfirmPassword && <div className="text-red mb-2 font-bold">{errors.ConfirmPassword.message}</div>}
 
-            <button className="my-2 w-full bg-red px-6 py-2 text-white text-lg font-bold">
+            <button onClick={SignUp} className="my-2 w-full bg-red px-6 py-2 text-white text-lg font-bold">
               Sign Up
             </button>
             <div className="flex gap-6 mt-2">
@@ -125,7 +149,7 @@ function Introduction() {
             membership.
           </h3>
           <button
-            onClick={Clicked}
+            onClick={GetStarted}
             className="w-36 h-12 bg-red font-bold text-white mt-4"
           >
             GET STARTED
