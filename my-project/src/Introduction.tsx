@@ -132,7 +132,7 @@ function Introduction() {
             </button>
             <div className="flex gap-6 mt-2">
               <p className="text-gray font-bold">Already Have an account?</p>
-              <button className="text-white font-bold">Sign In Now</button>
+              <button className="text-white font-bold">Sign In No</button>
             </div>
           </form>
         </div>
