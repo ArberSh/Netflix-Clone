@@ -3,6 +3,8 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import Logo from "../src/assets/png-clipart-netflix-logo-netflix-television-show-streaming-media-film-netflix-logo-television-text-thumbnail-removebg-preview.png";
 import { auth } from "./init";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import LoadingImg from './assets/loading.png'
 
 type FormFields = {
     Firstname:string;
@@ -14,25 +16,27 @@ type FormFields = {
 
 
 function Introduction() {
-    const [Email, setEmail] = useState<string>('');
-    const [Password, setPassword] = useState<string>('');    
+    const [Loading, SetLoading] = useState<Boolean>(false)
     
     const [clicked, SetClicked] = useState<Boolean>(false);
     const [SignInclicked, SetSignInClicked] = useState<Boolean>(false);
 
-    const { register,handleSubmit,formState:{errors},watch,setValue } = useForm<FormFields>();
+    const { register,handleSubmit,formState:{errors},watch,setValue,getValues } = useForm<FormFields>();
+    const navigate = useNavigate();
     
     const onSubmit: SubmitHandler<FormFields> = (data) => {
         setValue("Email", data.Email);
         setValue("Password", data.Password);
+        SignUp(data.Email, data.Password);
     }
 
-
-    function SignUp(){
+    function SignUp(Email:string,Password:string){
+      SetLoading(true)
     createUserWithEmailAndPassword(auth, Email, Password)
     .then((user)=> {
-        console.log(user);
-    
+        console.log(user)
+        navigate('/HomePage')
+        SetLoading(false)
     }).catch((error)=>{
         const errorCode = error.code
         const errorMessage = error.message
@@ -126,13 +130,13 @@ function Introduction() {
               
             />
               {errors.ConfirmPassword && <div className="text-red mb-2 font-bold">{errors.ConfirmPassword.message}</div>}
-
-            <button onClick={SignUp} className="my-2 w-full bg-red px-6 py-2 text-white text-lg font-bold">
-              Sign Up
+              
+            <button type="submit" className=" flex items-center justify-center my-2 w-full bg-red px-6 py-2 text-white text-lg font-bold">
+              {Loading ? (<img className="w-7 animate-spin text-center" src={LoadingImg}></img>) : ("Sign Up")}
             </button>
             <div className="flex gap-6 mt-2">
               <p className="text-gray font-bold">Already Have an account?</p>
-              <button className="text-white font-bold">Sign In No</button>
+              <button className="text-white font-bold">Sign In Now</button>
             </div>
           </form>
         </div>
