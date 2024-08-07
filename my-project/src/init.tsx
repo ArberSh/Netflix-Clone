@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBjyfDCck9h2yieCHiHt18LG8NAzivGk64",
@@ -11,8 +12,26 @@ const firebaseConfig = {
     appId: "1:899935918771:web:9f0db1d48fe7cdc1dfaec6",
     measurementId: "G-71J4GJ2W1W"
   };
-   
 
+  async function Test(){
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        first: "Alan",
+        middle: "Mathison",
+        last: "Turing",
+        born: 1912
+      });
+    
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+  Test()
+
+  
+  
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
+  const db = getFirestore(app);
   export const auth = getAuth();

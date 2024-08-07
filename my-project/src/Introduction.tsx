@@ -5,6 +5,7 @@ import { auth } from "./init";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import LoadingImg from './assets/loading.png'
+import { collection, addDoc } from "firebase/firestore"; 
 
 type FormFields = {
     Firstname:string;
@@ -16,6 +17,10 @@ type FormFields = {
 
 
 function Introduction() {
+
+  
+  
+
     const [Loading, SetLoading] = useState<Boolean>(false)
     
     const [clicked, SetClicked] = useState<Boolean>(false);
@@ -66,6 +71,7 @@ function Introduction() {
     SetClicked(true)
   }
   console.log(Password)
+  console.log(Email)
 
   function SignIn(){
     SetLoading(true)
@@ -221,7 +227,7 @@ function Introduction() {
                   }
                   
               })}
-              onClick={(e) => SetEmail((e.target as HTMLInputElement).value)}
+              onInput={(e) => SetEmail((e.target as HTMLInputElement).value)}
             />
               {(errors.Email || ErrorMessage)  && <div className="text-red mb-2 font-bold">Email is Invalid or Incorrect!</div>}
               <input 
@@ -236,7 +242,7 @@ function Introduction() {
                 },
                 pattern: /^.{8,}$/
               })}
-              onClick={(e) => SetPassword((e.target as HTMLInputElement).value)}
+              onInput={(e) => SetPassword((e.target as HTMLInputElement).value)}
               />
               {(errors.Password || ErrorMessage) && <div className="text-red mb-2 font-bold">Password is incorrect!</div>}
               </div>
