@@ -6,12 +6,15 @@ import HomePage from './HomePage';
 
 function App() {
 
+  const [FirstName,SetFirstName] = useState<string>('')
+  const [LastName,SetLastName] = useState<string>('')
+
   return (
     <>
     <Router>
       <Routes>
-        <Route path='/' element={<Introduction/>}></Route>
-        <Route path='/HomePage' element={<HomePage/>}> </Route>
+        <Route path='/' element={<Introduction SetFirstName={SetFirstName} SetLastName={SetLastName}/>}></Route>
+        <Route path='/HomePage' element={<HomePage FirstName={FirstName} LastName={LastName} />}> </Route>
       </Routes>
     </Router>
     

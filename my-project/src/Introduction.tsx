@@ -1,11 +1,12 @@
 import React, { useState,useEffect, ChangeEvent } from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import Logo from "../src/assets/png-clipart-netflix-logo-netflix-television-show-streaming-media-film-netflix-logo-television-text-thumbnail-removebg-preview.png";
-import { auth } from "./init";
+import { auth,db } from "./init";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import LoadingImg from './assets/loading.png'
-import { collection, addDoc } from "firebase/firestore"; 
+import { doc, setDoc, collection,getDoc } from "firebase/firestore"; 
+
 
 type FormFields = {
     Firstname:string;
@@ -15,12 +16,16 @@ type FormFields = {
     ConfirmPassword:string;
 }
 
+interface IntroductionProps {
+  SetFirstName: (value: string) => void;
+  SetLastName: (value: string) => void;
+}
 
-function Introduction() {
+
+
+function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
 
   
-  
-
     const [Loading, SetLoading] = useState<Boolean>(false)
     
     const [clicked, SetClicked] = useState<Boolean>(false);
@@ -28,6 +33,8 @@ function Introduction() {
     const [ErrorMessage,setErrorMessage] = useState<boolean>(false)
     const [Email,SetEmail] = useState<string>("")
     const [Password,SetPassword] = useState<string>("")
+    const [Firstname,SetFirstname] = useState<string>("")
+    const [Lastname,SetLastname] = useState<string>("")
 
     const { register,handleSubmit,formState:{errors},watch,setValue,getValues } = useForm<FormFields>();
     const navigate = useNavigate();
@@ -35,28 +42,48 @@ function Introduction() {
     const onSubmit: SubmitHandler<FormFields> = (data) => {
         setValue("Email", data.Email);
         setValue("Password", data.Password);
-        SignUp(data.Email, data.Password);
+        setValue("Firstname", data.Firstname);
+        setValue("Lastname", data.Lastname);
+        SignUp(data.Email, data.Password,data.Firstname,data.Lastname);
     }
 
-    function SignUp(Email:string,Password:string){
-      SetLoading(true)
-    createUserWithEmailAndPassword(auth, Email, Password)
-    .then((user)=> {
-        console.log(user)
-        navigate('/HomePage')
-        SetLoading(false)
-    }).catch((error)=>{
-        SetLoading(false)
-        const errorCode = error.code
-        const errorMessage = error.message
-        if (errorCode === 'auth/email-already-in-use') {
-        setErrorMessage(true);
-      } else {
-        setErrorMessage(false);
+    async function SignUp(Email: string, Password: string, Firstname: string, Lastname: string) {
+    try {
+      SetLoading(true);
+      const userCredential = await createUserWithEmailAndPassword(auth, Email, Password);
+      const user = userCredential.user;
+
+      const userRef = doc(collection(db, 'users'), user.uid);
+      await setDoc(userRef, {
+        FirstName: Firstname,
+        LastName: Lastname,
+        Email: Email,
+      });
+
+      // Retrieve the document to verify it was added
+      const docSnapshot = await getDoc(userRef);
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        console.log(userData?.FirstName); // Logs the FirstName to the console
+        SetFirstName(userData?.FirstName);
+        SetLastName(userData?.LastName);
       }
-        console.error(errorCode, errorMessage);
-    })
+
+      navigate('/HomePage');
+    } catch (error) {
+      console.error("Error adding user to Firestore: ", error);
+      if (error instanceof Error) {
+        if (error.message.includes('auth/email-already-in-use')) {
+          setErrorMessage(true);
+        } else {
+          setErrorMessage(false);
+        }
+      }
+    } finally {
+      SetLoading(false);
+    }
   }
+
 
   function FromSignInToSignUp(){
     SetSignInClicked(false)
@@ -73,14 +100,23 @@ function Introduction() {
   console.log(Password)
   console.log(Email)
 
-  function SignIn(){
+  async function SignIn(){
+    try{
     SetLoading(true)
-    signInWithEmailAndPassword(auth, Email, Password).then((user) => {
+    const userCredential = await signInWithEmailAndPassword(auth, Email, Password)
       SetLoading(false)
-      console.log(user)
+        const user = userCredential.user;
+        const userRef = doc(collection(db, 'users'), user.uid);
+
+      const docSnapshot = await getDoc(userRef);
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        SetFirstName(userData?.FirstName);
+        SetLastName(userData?.LastName);
+      }
       navigate('/HomePage')
-    })
-    .catch((error)=>{
+    }
+    catch(error:any){
       SetLoading(false)
       const errorCode = error.code
       const errorMessage = error.message
@@ -91,7 +127,7 @@ function Introduction() {
       setErrorMessage(false);
     }
       console.error(errorCode, errorMessage);
-  })
+  }
   }
 
   

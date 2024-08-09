@@ -1,9 +1,14 @@
 import React from 'react'
 
-function HomePage() {
+interface HomePageProps {
+  FirstName: string;
+  LastName: string;
+}
+
+function HomePage({ FirstName, LastName }: HomePageProps) {
   return (
-    <div>HomePage</div>
+    <div>This is yourrrr ....{FirstName + ' ' + LastName}</div>
   )
 }
 
-export default HomePage
+export default HomePage;
