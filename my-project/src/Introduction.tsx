@@ -120,7 +120,7 @@ function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
       SetLoading(false)
       const errorCode = error.code
       const errorMessage = error.message
-      if (errorCode === 'auth/invalid-email') {
+      if (errorCode === 'auth/invalid-email' || errorCode === 'auth/invalid-password' || errorCode === 'auth/invalid-credential') {
       setErrorMessage(true);
       console.log('error')
     } else {
@@ -142,7 +142,7 @@ function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
       </div>
       {clicked ? (
         <div className={` flex flex-col justify-center  items-center `}>
-          <div  className={` p-10 bg-black flex flex-col items-start ${SignInclicked ? "hidden" : "flex"}`}>
+          <div  className={` max-[600px]:p-6 max-[600px]:mt-16 p-10 bg-black flex justify-center flex-col items-start ${SignInclicked ? "hidden" : "flex"}`}>
             <form onSubmit={handleSubmit(onSubmit)} className={`  bg-black flex-col items-start ${SignInclicked ? "hidden" : "flex"}`}>
             <h1 className="text-white text-3xl font-bold">Sign Up</h1>
             <div className={` w-80 gap-4 flex mt-4 ${errors.Firstname || errors.Lastname ? "mb-2" : "mb-4"}`}>
@@ -246,7 +246,7 @@ function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
       )}
       {SignInclicked && 
           <div className="flex justify-center items-center h-3/5">
-           <div className=" p-10 bg-black flex flex-col items-start">
+           <div className=" max-[600px]:p-6 p-10 bg-black flex flex-col items-start">
             <div className=" flex flex-col items-start">
             <h1 className="text-white text-3xl font-bold">Sign Up</h1>
             <div className={`flex-col w-80  flex mt-4 `}>
@@ -280,7 +280,7 @@ function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
               })}
               onInput={(e) => SetPassword((e.target as HTMLInputElement).value)}
               />
-              {(errors.Password || ErrorMessage) && <div className="text-red mb-2 font-bold">Password is incorrect!</div>}
+              {(errors.Password || ErrorMessage) && <div className="text-red mb-2 font-bold">Password is Incorrect!</div>}
               </div>
               <button onClick={SignIn} className="my-2 w-full bg-red px-6 py-2 text-white text-lg font-bold flex justify-center items-center">{Loading ? (<img className="w-7 animate-spin text-center" src={LoadingImg}></img>) : ("Sign In")}</button>
               <div className="px-2 flex justify-between items-center w-full">

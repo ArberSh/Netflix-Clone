@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<Introduction SetFirstName={SetFirstName} SetLastName={SetLastName}/>}></Route>
-        <Route path='/HomePage' element={<HomePage FirstName={FirstName} LastName={LastName} />}> </Route>
+        <Route path='/HomePage' element={<HomePage/>}> </Route>
       </Routes>
     </Router>
     
