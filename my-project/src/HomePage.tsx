@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useEffect} from 'react';
 import axios from 'axios'
 import NetflixLogo from './assets/png-clipart-netflix-logo-netflix-television-show-streaming-media-film-netflix-logo-television-text-thumbnail-removebg-preview.png'
@@ -11,20 +11,29 @@ interface HomePageProps {
   LastName: string;
 }
 
-const imagePath = "https://image.tmdb.org/t/p/original/dqK9Hag1054tghRQSqLSfrkvQnA.jpg"
+
 
 function HomePage() {
-//   useEffect(()=>{
-//   async function fetchMovieData() {
-//     try {
-//       const response = await axios.get('https://api.themoviedb.org/3/person/popular?language=en-US&api_key=1d64987033e87e832914c3294d337cef');
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-//   fetchMovieData();
-//   })
+  
+  const [image,SetImage] = useState<string>('')
+  const [Data,SetData] = useState<string>('')
+  const imagePath = `https://image.tmdb.org/t/p/original${image}`
+  const RandomNumberForResults = Math.floor(Math.random() * 20)
+  const RandomNumberForKnown_for = Math.floor(Math.random() * 3)
+  
+  useEffect(()=>{
+  async function fetchMovieData() {
+    try {
+      const response = await axios.get('https://api.themoviedb.org/3/person/popular?language=en-US&api_key=1d64987033e87e832914c3294d337cef');
+      // console.log(response.data.results);
+      SetData(response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for])
+      SetImage(response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for].backdrop_path)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  fetchMovieData();
+  },[])
   return (
     <>
     <div className='h-screen bg-cover bg-no-repeat' style={{
@@ -48,7 +57,7 @@ function HomePage() {
         {/* LANDING */}
       <div className='flex justify-start items-center h-3/5 px-32'>
         <div className='flex justify-center items-start flex-col' >
-          <h1 className='text-white text-4xl'>DESPICABLE ME 4</h1>
+          <h1 className='text-white text-4xl'>{Data.title}</h1>
           <h1 className='text-white text-sm'>Date 2024 a ku di un</h1>
           <p className='text-white mt-4'>PARAGRAF AAAAAAAAAAAAA</p>
           <div className='flex gap-4 mt-6'>
