@@ -6,9 +6,11 @@ import SearchLogo from './assets/SearchLogo.svg'
 import ProfileLogo from './assets/ProfileLogo.png'
 import LogOut from './assets/LogOut.svg'
 
-interface HomePageProps {
-  FirstName: string;
-  LastName: string;
+interface Information {
+  Image:string;
+  Title:string;
+  Date:string;
+  description:string;
 }
 
 
@@ -16,18 +18,36 @@ interface HomePageProps {
 function HomePage() {
   
   const [image,SetImage] = useState<string>('')
-  const [Data,SetData] = useState<string>('')
-  const imagePath = `https://image.tmdb.org/t/p/original${image}`
+  const [Data,SetData] = useState<Information | null>(null)
+  const imagePath = `https://image.tmdb.org/t/p/original${Data?.Image}`
   const RandomNumberForResults = Math.floor(Math.random() * 20)
   const RandomNumberForKnown_for = Math.floor(Math.random() * 3)
   
   useEffect(()=>{
   async function fetchMovieData() {
     try {
-      const response = await axios.get('https://api.themoviedb.org/3/person/popular?language=en-US&api_key=1d64987033e87e832914c3294d337cef');
+      const response = await axios.get('https://api.themoviedb.org/3/person/popular?language=en-US&api_key=1d64987033e87e832914c3294d337cef')
+      const Test = response.data.results
+      const movie = response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for]
+      console.log(movie)
+      Test.map((elem: any) => {
+        elem.known_for.map((elem:any) => {
+          console.log(elem.backdrop_path)
+         const FilteredMovie = elem.filter((elem : any) => {
+            elem.backdrop_path === null || undefined
+            FilteredMovie.map((elem : any) => console.log(elem))
+          })
+        })
+      })
       // console.log(response.data.results);
-      SetData(response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for])
-      SetImage(response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for].backdrop_path)
+      // SetImage(response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for].backdrop_path)
+      // SetData.filter(movie.backdrop_path)({
+      //   Image: movie.backdrop_path,
+      //   Title: movie.title || movie.name, // Handle both movie titles and TV show names
+      //   Date: movie.release_date || movie.first_air_date, // Handle both movie and TV show dates
+      //   description: movie.overview,
+      // });
+
     } catch (error) {
       console.error(error);
     }
@@ -57,7 +77,7 @@ function HomePage() {
         {/* LANDING */}
       <div className='flex justify-start items-center h-3/5 px-32'>
         <div className='flex justify-center items-start flex-col' >
-          <h1 className='text-white text-4xl'>{Data.title}</h1>
+          <h1 className='text-white text-4xl'>{Data?.Title}</h1>
           <h1 className='text-white text-sm'>Date 2024 a ku di un</h1>
           <p className='text-white mt-4'>PARAGRAF AAAAAAAAAAAAA</p>
           <div className='flex gap-4 mt-6'>
