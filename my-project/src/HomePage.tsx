@@ -5,6 +5,8 @@ import NetflixLogo from './assets/png-clipart-netflix-logo-netflix-television-sh
 import SearchLogo from './assets/SearchLogo.svg'
 import ProfileLogo from './assets/ProfileLogo.png'
 import LogOut from './assets/LogOut.svg'
+import Play from './assets/Play.svg'
+import info from './assets/info.svg'
 
 interface Information {
   Image:string;
@@ -20,33 +22,29 @@ function HomePage() {
   const [image,SetImage] = useState<string>('')
   const [Data,SetData] = useState<Information | null>(null)
   const imagePath = `https://image.tmdb.org/t/p/original${Data?.Image}`
-  const RandomNumberForResults = Math.floor(Math.random() * 20)
-  const RandomNumberForKnown_for = Math.floor(Math.random() * 3)
+  
+
   
   useEffect(()=>{
-  async function fetchMovieData() {
-    try {
-      const response = await axios.get('https://api.themoviedb.org/3/person/popular?language=en-US&api_key=1d64987033e87e832914c3294d337cef')
-      const Test = response.data.results
-      const movie = response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for]
-      console.log(movie)
+    async function fetchMovieData() {
+      try {
+        const response = await axios.get('https://api.themoviedb.org/3/person/popular?language=en-US&api_key=1d64987033e87e832914c3294d337cef')
+        const Test = response.data.results
+        let FilteredData1 :any[] = []
       Test.map((elem: any) => {
-        elem.known_for.map((elem:any) => {
-          console.log(elem.backdrop_path)
-         const FilteredMovie = elem.filter((elem : any) => {
-            elem.backdrop_path === null || undefined
-            FilteredMovie.map((elem : any) => console.log(elem))
+          const FilteredData = elem.known_for.filter((elem:any) => elem.backdrop_path !== null)
+          FilteredData.map((elem : any) => {
+            FilteredData1.push(elem)
+            const RandomNumberForResults = Math.floor(Math.random() * FilteredData1.length)
+           const Data = FilteredData1[RandomNumberForResults]
+            SetData({
+              Image: Data.backdrop_path,
+              Title: Data.title || Data.name, // Handle both movie titles and TV show names
+              Date: Data.release_date || Data.first_air_date, // Handle both movie and TV show dates
+              description: Data.overview,
+            })
           })
         })
-      })
-      // console.log(response.data.results);
-      // SetImage(response.data.results[RandomNumberForResults].known_for[RandomNumberForKnown_for].backdrop_path)
-      // SetData.filter(movie.backdrop_path)({
-      //   Image: movie.backdrop_path,
-      //   Title: movie.title || movie.name, // Handle both movie titles and TV show names
-      //   Date: movie.release_date || movie.first_air_date, // Handle both movie and TV show dates
-      //   description: movie.overview,
-      // });
 
     } catch (error) {
       console.error(error);
@@ -57,7 +55,7 @@ function HomePage() {
   return (
     <>
     <div className='h-screen bg-cover bg-no-repeat' style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 1) ,rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${imagePath})`}}>
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 1) ,rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${imagePath})`}}>
       <div className='flex justify-center items-center '
     >
         <img className='w-40' src={NetflixLogo} alt="Netflix Logo" />
@@ -77,12 +75,18 @@ function HomePage() {
         {/* LANDING */}
       <div className='flex justify-start items-center h-3/5 px-32'>
         <div className='flex justify-center items-start flex-col' >
-          <h1 className='text-white text-4xl'>{Data?.Title}</h1>
-          <h1 className='text-white text-sm'>Date 2024 a ku di un</h1>
-          <p className='text-white mt-4'>PARAGRAF AAAAAAAAAAAAA</p>
+          <h1 className='text-white text-4xl font-BlackHanSans '>{Data?.Title}</h1>
+          <h1 className='text-white text-sm'>{Data?.Date}</h1>
+          <p className='text-white mt-4 w-full max-w-160'>{Data?.description}</p>
           <div className='flex gap-4 mt-6'>
-            <button className='bg-white text-black p-2'>Play</button>
-            <button className='bg-gray text-white p-2'>More Info</button>
+            <button className='bg-white text-black p-2 flex items-center justify-center gap-1'>
+              <img className='w-5' src={Play} alt="" />
+              <h2 className='text-base font-semibold'>Play</h2>
+              </button>
+            <button className='bg-gray text-white p-2 flex items-center justify-center gap-1'>
+              <img src={info} alt="" />
+              <h2 className='text-base font-semibold'>More Info</h2>
+              </button>
           </div>
         </div>
       </div>
