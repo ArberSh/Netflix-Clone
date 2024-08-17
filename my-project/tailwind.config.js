@@ -22,7 +22,7 @@ export default {
       },
       fontFamily:{
         BlackHanSans: ['"Black Han Sans"', 'sans-serif']
-      }
+      },
     },
   },
   plugins: [],
