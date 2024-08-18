@@ -7,6 +7,7 @@ import ProfileLogo from './assets/ProfileLogo.png'
 import LogOut from './assets/LogOut.svg'
 import Play from './assets/Play.svg'
 import info from './assets/info.svg'
+import NowPlaying from './component/NowPlaying';
 
 interface Information {
   Image:string;
@@ -117,12 +118,10 @@ img.src = imagePath
    
     
       <div>
-        <h1 className='text-black  text-xl'>hii</h1>
+       <NowPlaying></NowPlaying>
       </div>
     </>
   )
 }
-
-//1d64987033e87e832914c3294d337cef
 
 export default HomePage;
