@@ -8,6 +8,9 @@ import LogOut from './assets/LogOut.svg'
 import Play from './assets/Play.svg'
 import info from './assets/info.svg'
 import NowPlaying from './component/NowPlaying';
+import TopRatingMovies from './component/TopRatedMovies';
+import PopularMovies from './component/PopularMovies'
+import UpcomingMovies from './component/UpcomingMovies'
 
 interface Information {
   Image:string;
@@ -70,6 +73,12 @@ function HomePage() {
   }
 img.src = imagePath
   },[Data])
+
+  if (Loading) {
+    document.body.style.overflowY = 'hidden';
+  } else {
+    document.body.style.overflowY = 'auto';  
+  }
   
   return (
     <>
@@ -78,9 +87,9 @@ img.src = imagePath
       
       <div className='h-screen bg-cover bg-no-repeat bg-center' style={{
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 1) ,rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${imagePath})`}}>
-      <div className='flex justify-center items-center '
+      <div className='flex justify-center items-center px-2'
     >
-        <img className='w-40' src={NetflixLogo} alt="Netflix Logo" />
+        <img className='w-40 max-[640px]:w-28' src={NetflixLogo} alt="Netflix Logo" />
         <input type="text" className='mx-6 bg-black bg-opacity-0 w-full max-w-96 text-white outline-none h-6 text-lg' placeholder='Movies Tv Shows Search History' />
         <div className='flex justify-center items-center'>
         <button className='px-2'>
@@ -117,8 +126,11 @@ img.src = imagePath
   
    
     
-      <div>
+      <div className='bg-black p-10'>
        <NowPlaying></NowPlaying>
+       <TopRatingMovies></TopRatingMovies>
+       <PopularMovies></PopularMovies>
+       <UpcomingMovies></UpcomingMovies>
       </div>
     </>
   )

@@ -17,7 +17,7 @@ interface Information {
     Title:string;
   }
 
-function NowPlaying() {
+function TopRatingMovies() {
 
     const [Data,SetData] = useState<Information[]>([])
     const [Image,SetImage] = useState<string>('')
@@ -27,7 +27,7 @@ function NowPlaying() {
     
         async function fetchMovieData() {
           try {
-            const response = await axios.get('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1&api_key=1d64987033e87e832914c3294d337cef')
+            const response = await axios.get('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1&api_key=1d64987033e87e832914c3294d337cef')
             const Test = response.data.results
                 SetData(
                     Test.map((elem: any) => ({
@@ -49,7 +49,7 @@ function NowPlaying() {
   return (
     
     <div className=''>
-        <h1 className='text-white text-xl pb-4 font-bold'>Now Playing Movies</h1>
+        <h1 className='text-white text-xl pb-4 font-bold'>Top Rated Movies</h1>
         <div className='flex flex-row justify-start items-center flex-wrap gap-4'>
         <Swiper
       slidesPerView={6}  
@@ -90,4 +90,4 @@ function NowPlaying() {
   )
 }
 
-export default NowPlaying
+export default TopRatingMovies
