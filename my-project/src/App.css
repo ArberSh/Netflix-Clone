@@ -19,3 +19,13 @@
     }
 }
 
+.transparent {
+    background-color: transparent;
+}
+
+.width200 {
+    width: 100%;
+    max-width: 40rem; 
+    background-color: black;
+}
+
