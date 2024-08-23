@@ -84,7 +84,7 @@ function HomePage() {
           }}
         >
         <Navigation></Navigation>
-          <div className="flex justify-start items-center h-3/5 px-32 max-[640px]:px-8">
+          <div className="flex justify-start items-center h-3/5 px-32 max-[640px]:px-8 pt-40">
             <div className="flex justify-center items-start flex-col">
               <h1 className="text-white text-4xl font-BlackHanSans ">
                 {Data?.Title}
