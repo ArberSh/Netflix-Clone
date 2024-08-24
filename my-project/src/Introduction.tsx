@@ -19,13 +19,15 @@ type FormFields = {
 interface IntroductionProps {
   SetFirstName: (value: string) => void;
   SetLastName: (value: string) => void;
+  SetEmail1: (value: string) => void;
 }
 
 
 
-function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
+function Introduction({SetFirstName, SetLastName, SetEmail1} : IntroductionProps ) {
 
   
+
     const [Loading, SetLoading] = useState<Boolean>(false)
     
     const [clicked, SetClicked] = useState<Boolean>(false);
@@ -60,15 +62,15 @@ function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
         Email: Email,
       });
 
-      // Retrieve the document to verify it was added
       const docSnapshot = await getDoc(userRef);
       if (docSnapshot.exists()) {
         const userData = docSnapshot.data();
-        console.log(userData?.FirstName); // Logs the FirstName to the console
+        console.log(userData?.FirstName); 
         SetFirstName(userData?.FirstName);
         SetLastName(userData?.LastName);
       }
-
+      
+      
       navigate('/HomePage');
     } catch (error) {
       console.error("Error adding user to Firestore: ", error);
@@ -83,7 +85,7 @@ function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
       SetLoading(false);
     }
   }
-
+  
 
   function FromSignInToSignUp(){
     SetSignInClicked(false)
@@ -92,19 +94,19 @@ function Introduction({SetFirstName, SetLastName} : IntroductionProps ) {
   function GetStarted() {
     SetClicked(true);
   }
-
+  
   function SignInClicked(){
     SetSignInClicked(true);
     SetClicked(true)
   }
-  console.log(Password)
-  console.log(Email)
+  SetEmail1(Email)
 
+  console.log(Email + ' ' + Firstname + ' ' + Lastname)
   async function SignIn(){
     try{
-    SetLoading(true)
+      SetLoading(true)
     const userCredential = await signInWithEmailAndPassword(auth, Email, Password)
-      SetLoading(false)
+    SetLoading(false)
         const user = userCredential.user;
         const userRef = doc(collection(db, 'users'), user.uid);
 

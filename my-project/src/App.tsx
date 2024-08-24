@@ -9,15 +9,18 @@ function App() {
 
   const [FirstName,SetFirstName] = useState<string>('')
   const [LastName,SetLastName] = useState<string>('')
+  const [Email,SetEmail] = useState<string>('')
+
+  console.log(FirstName + ' ' + LastName + ' ' + Email )
 
   return (
     <>
     
     <Router>
       <Routes>
-        <Route path='/' element={<Introduction SetFirstName={SetFirstName} SetLastName={SetLastName}/>}></Route>
+        <Route path='/' element={<Introduction SetFirstName={SetFirstName} SetLastName={SetLastName} SetEmail1={SetEmail}/>}></Route>
         <Route path='/HomePage' element={<HomePage/>}> </Route>
-        <Route path='/Account' element={<Account/>}></Route>
+        <Route path='/Account' element={<Account FirstName={FirstName} LastName={LastName} Email={Email}/>}></Route>
       </Routes>
     </Router>
     
