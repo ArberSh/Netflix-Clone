@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import InfoMovie from '../InfoMovies'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -10,6 +11,7 @@ import '../Swiper-Edit.css'
 
 // import required modules
 import { Navigation } from 'swiper/modules';
+import { Link } from 'react-router-dom';
 
 
 interface Information {
@@ -78,10 +80,12 @@ function NowPlaying() {
     >
          {Data.map((elem, index) => (
             <SwiperSlide key={index} className='flex justify-center items-center'>
+                <Link to={'/InfoMovie'}>
             <div key={index} className='pt-2 cursor-pointer text-white flex flex-col text-center w-56 transition ease-in-out hover:scale-110 max-[640px]:w-40'>
                 <img className='w-56 rounded-lg ' src={elem.Image} alt="" />
             <h1>{elem.Title}</h1>
             </div>
+            </Link>
             </SwiperSlide>
       ))}
       </Swiper>

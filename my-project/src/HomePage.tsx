@@ -24,6 +24,11 @@ function HomePage() {
   const [Loading, SetLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [Data, Loading]);
+
+  useEffect(() => {
+
     async function fetchMovieData() {
       try {
         const response = await axios.get(

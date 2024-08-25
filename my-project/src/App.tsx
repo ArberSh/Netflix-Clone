@@ -4,6 +4,7 @@ import Introduction from '../src/Introduction'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from './HomePage';
 import Account from './Account';
+import InfoMovies from './InfoMovies';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/' element={<Introduction SetFirstName={SetFirstName} SetLastName={SetLastName} SetEmail1={SetEmail}/>}></Route>
         <Route path='/HomePage' element={<HomePage/>}> </Route>
         <Route path='/Account' element={<Account FirstName={FirstName} LastName={LastName} Email={Email}/>}></Route>
+        <Route path='/InfoMovie' element={<InfoMovies/>}></Route>
       </Routes>
     </Router>
     
