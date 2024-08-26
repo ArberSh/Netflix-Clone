@@ -22,7 +22,7 @@ function App() {
         <Route path='/' element={<Introduction SetFirstName={SetFirstName} SetLastName={SetLastName} SetEmail1={SetEmail}/>}></Route>
         <Route path='/HomePage' element={<HomePage/>}> </Route>
         <Route path='/Account' element={<Account FirstName={FirstName} LastName={LastName} Email={Email}/>}></Route>
-        <Route path='/InfoMovie' element={<InfoMovies/>}></Route>
+        <Route path='/InfoMovie/:id' element={<InfoMovies/>}></Route>
       </Routes>
     </Router>
     

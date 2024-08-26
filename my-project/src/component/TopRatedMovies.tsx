@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 
 
 interface Information {
+  Id:number;
     Image:string;
     Title:string;
   }
@@ -32,7 +33,7 @@ function TopRatingMovies() {
             const Test = response.data.results
                 SetData(
                     Test.map((elem: any) => ({
-                    
+                      Id:elem.id,
                       Image: `https://image.tmdb.org/t/p/original${elem.backdrop_path}`,
                       Title: elem.title || elem.name,
                     })))
@@ -79,7 +80,7 @@ function TopRatingMovies() {
     >
          {Data.map((elem, index) => (
            <SwiperSlide key={index} className='flex justify-center items-center'>
-              <Link to={'/InfoMovie'}>
+              <Link to={`/InfoMovie/${elem.Id}`}>
             <div key={index} className='pt-2 cursor-pointer text-white flex flex-col text-center w-56 transition ease-in-out hover:scale-110 max-[640px]:w-40'>
                 <img className='w-56 rounded-lg ' src={elem.Image} alt="" />
             <h1>{elem.Title}</h1>
