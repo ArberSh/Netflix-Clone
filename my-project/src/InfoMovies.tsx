@@ -24,7 +24,7 @@ function InfoMovies() {
   const [Loading,setLoading] = useState(true)
   const [Image,setImage] = useState('')
   const imagePath = `https://image.tmdb.org/t/p/original${Image}`;
-  const [genre,getgenres] = useState([])
+  const [genre,setGenre] = useState<string[]>([])
 
   const opts = {
     height:'500',
@@ -52,15 +52,11 @@ function InfoMovies() {
       try {
         const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=1d64987033e87e832914c3294d337cef`) 
      setImage(response.data.poster_path)
-     const genres = response.data.genres
-     genres.map((elem:any) => {
-       getgenres(elem.name)
-       
-      })
-      
+     const genres = response.data.genres.map((elem: any) => elem.name);
+        setGenre(genres);
       SetData({
         id:response.data.id,
-      NameTitle:response.data.original_title,
+        NameTitle:response.data.original_title,
       description:response.data.overview,
       data:response.data.release_date,
     })
@@ -71,6 +67,7 @@ function InfoMovies() {
   }
   GetData()
 },[])
+console.log(genre)
   return (
     <>
     {Loading ? (
@@ -84,7 +81,15 @@ function InfoMovies() {
     <div className='bg-black h-screen justify-center flex items-center p-6'>
       <div key={Data?.id} className='text-white flex justify-center items-start flex-col max-w-160 w-full '>
         <h1 className='text-start text-3xl font-bold'>{Data?.NameTitle}</h1>
-        <h2 className='pb-4'>{Data?.data}</h2>
+        <h2 className='pb-2'>{Data?.data}</h2>
+          <h1 className='text-white font-bold '>Genres</h1>
+        <div className='pb-4  flex justify-center items-center gap-2'>
+        {genre.map((elem,index)=>(
+          <div >
+          <h1 className='text-white '>{elem}</h1>
+          </div>
+        ))}
+        </div>
         <p>{Data?.description}</p>
       </div>
       <div className='flex justify-center items-center px-10'>

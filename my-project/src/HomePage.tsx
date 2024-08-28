@@ -8,12 +8,14 @@ import NowPlaying from "./component/NowPlaying";
 import TopRatingMovies from "./component/TopRatedMovies";
 import PopularMovies from "./component/PopularMovies";
 import UpcomingMovies from "./component/UpcomingMovies";
+import { Link } from "react-router-dom";
 
 interface Information {
   Image: string;
   Title: string;
   Date: string;
   description: string;
+  id:number;
 }
 
 function HomePage() {
@@ -46,11 +48,13 @@ function HomePage() {
               Math.random() * FilteredData1.length
             );
             const Data = FilteredData1[RandomNumberForResults];
+            console.log(Data)
             SetData({
               Image: Data.backdrop_path,
-              Title: Data.title || Data.name, // Handle both movie titles and TV show names
-              Date: Data.release_date || Data.first_air_date, // Handle both movie and TV show dates
+              Title: Data.title || Data.name, 
+              Date: Data.release_date || Data.first_air_date, 
               description: Data.overview,
+              id:Data.id
             });
           });
         });
@@ -103,10 +107,12 @@ function HomePage() {
                   <img className="w-5" src={Play} alt="" />
                   <h2 className="text-base font-semibold">Play</h2>
                 </button>
+                <Link to={`/InfoMovie/${Data?.id}`}>
                 <button className="bg-gray text-white p-2 flex items-center justify-center gap-1">
                   <img src={info} alt="" />
                   <h2 className="text-base font-semibold">More Info</h2>
                 </button>
+                </Link>
               </div>
             </div>
           </div>
