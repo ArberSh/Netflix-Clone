@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import YouTube from 'react-youtube';
 import Navigation from './component/Navigation';
+import SimilarMovies from './SimilarMovies';
 
 interface DataYouTube{
   Id_YT:string;
@@ -36,6 +37,7 @@ function InfoMovies() {
     async function GetDataYoutube() {
       try{
         const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&api_key=1d64987033e87e832914c3294d337cef`)
+        console.log(response.data.results[0].key)
         SetDataYT([{ Id_YT: response.data.results[0].key }]);
         setLoading(false)
       }
@@ -85,7 +87,7 @@ console.log(genre)
           <h1 className='text-white font-bold '>Genres</h1>
         <div className='pb-4  flex justify-center items-center gap-2'>
         {genre.map((elem,index)=>(
-          <div >
+          <div key={index}>
           <h1 className='text-white '>{elem}</h1>
           </div>
         ))}
@@ -98,6 +100,9 @@ console.log(genre)
     </div>
     </div>
     )}
+    <div>
+      <SimilarMovies></SimilarMovies>
+    </div>
     </>
   )
 }

@@ -34,20 +34,15 @@ function HomePage() {
     async function fetchMovieData() {
       try {
         const response = await axios.get(
-          "https://api.themoviedb.org/3/person/popular?language=en-US&api_key=1d64987033e87e832914c3294d337cef"
+          "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=1d64987033e87e832914c3294d337cef"
         );
+        console.log(response)
         const Test = response.data.results;
-        let FilteredData1: any[] = [];
-        Test.map((elem: any) => {
-          const FilteredData = elem.known_for.filter(
-            (elem: any) => elem.backdrop_path !== null
-          );
-          FilteredData.map((elem: any) => {
-            FilteredData1.push(elem);
+        console.log(Test)
             const RandomNumberForResults = Math.floor(
-              Math.random() * FilteredData1.length
+              Math.random() * Test.length
             );
-            const Data = FilteredData1[RandomNumberForResults];
+            const Data = Test[RandomNumberForResults];
             console.log(Data)
             SetData({
               Image: Data.backdrop_path,
@@ -56,8 +51,8 @@ function HomePage() {
               description: Data.overview,
               id:Data.id
             });
-          });
-        });
+          
+
       } catch (error) {
         console.error(error);
       }
