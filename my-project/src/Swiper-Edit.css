@@ -24,6 +24,12 @@
   background-image: url('./assets/arrow-left.png');
 }
 
+.swiper-slide{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media(max-width: 600px){
     .swiper-button-next,
 .swiper-button-prev{

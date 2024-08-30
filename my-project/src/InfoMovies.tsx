@@ -98,11 +98,11 @@ console.log(genre)
         <img className='w-72' src={imagePath} alt="" />
       </div>
     </div>
-    </div>
-    )}
-    <div>
+    <div className='h-screen bg-black'>
       <SimilarMovies></SimilarMovies>
     </div>
+    </div>
+    )}
     </>
   )
 }
