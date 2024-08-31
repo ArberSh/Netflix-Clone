@@ -30,7 +30,7 @@ function Navigation() {
     <div className={`fixed top-0 left-0 right-0 w-screen flex flex-row justify-center items-center px-4 z-30 transition-all duration-200 ${scroll ? 'bg-black' : 'transparent'}`}>
         <Link to={'/Homepage'}>
             <img
-              className="w-40 max-[640px]:w-28"
+              className="w-40 min-w-28 max-[640px]:w-28"
               src={NetflixLogo}
               alt="Netflix Logo"
             />

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -37,21 +37,28 @@ function SimilarMovies() {
     }
     catch(error){
         console.log(error)
+        SetLoading(false)
     }
 }
 GetData()
 
 
-
-
 },[])
+
+function refreshPage(){
+    window.location.reload();
+} 
+
 console.log(Data)
 
   return (
     <>
     {Loading ?  <div>hi</div> : 
-    <div  className='  px-1/2'>
-        <div className='text-white flex flex-row justify-center items-center flex-wrap'>
+    <div className='  px-1/2'>
+        <div className='text-white flex flex-row justify-center items-center flex-wrap px-56 max-[1080px]:px-32 max-[710px]:px-12'>
+        <div className='flex justify-start items-start w-full pb-6'>
+        <h1 className='text-white text-xl font-bold px-10 '>Similar Movies</h1>
+        </div>
            <Swiper
       slidesPerView={4}  
       slidesPerGroup={4} 
@@ -59,7 +66,7 @@ console.log(Data)
       modules={[Navigation]}
       className="mySwiper flex justify-center items-center px-12"
       breakpoints={{
-        410: {
+        110: {
           slidesPerView: 2,
           slidesPerGroup: 2,
         },
@@ -75,11 +82,15 @@ console.log(Data)
     >
         {Data.map((elem,index)=>(
             <SwiperSlide className=''>
-            <div className='w-40 flex flex-col items-center justify-center' key={index}>
-                <img className='w-40' src={elem.imagePath} alt="" />
+                <button onClick={refreshPage}>
+                <Link to={`/InfoMovie/${elem.IdMovie}`}>
+            <div className='w-40  flex flex-col items-center justify-center' key={index}>
+                <img className='w-full max-w-40' src={elem.imagePath} alt="" />
                 <h1> {elem.NameTitle} </h1>
                 
                 </div>
+                </Link>
+                </button>
                 </SwiperSlide>
         ))
 

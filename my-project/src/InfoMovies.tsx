@@ -27,9 +27,10 @@ function InfoMovies() {
   const imagePath = `https://image.tmdb.org/t/p/original${Image}`;
   const [genre,setGenre] = useState<string[]>([])
 
-  const opts = {
-    height:'500',
-    width:'900',
+
+    const opts = {
+      height: window.innerWidth < 480 ? '180' : window.innerWidth < 768 ? '340' : '500',
+      width: window.innerWidth < 480 ? '300' : window.innerWidth < 768 ? '600' : '900',
   }
    
 
@@ -77,11 +78,11 @@ console.log(genre)
     ) : (
       <div className='bg-black h-screen'>
     <Navigation></Navigation>
-    <div className='flex justify-center items-center h-screen'>
+    <div className='flex justify-center items-center h-screen max-[640px]:items-start max-[640px]:py-40 max-[640px]:h-40'>
     <YouTube videoId={DataYT[0].Id_YT} opts={opts}  />
     </div>
-    <div className='bg-black h-screen justify-center flex items-center p-6'>
-      <div key={Data?.id} className='text-white flex justify-center items-start flex-col max-w-160 w-full '>
+    <div className='bg-black h-screen justify-center flex items-center p-6 max-[640px]:flex-col-reverse'>
+      <div key={Data?.id} className='text-white flex justify-center items-start flex-col max-w-160 w-full max-[640px]:pt-6 px-4 '>
         <h1 className='text-start text-3xl font-bold'>{Data?.NameTitle}</h1>
         <h2 className='pb-2'>{Data?.data}</h2>
           <h1 className='text-white font-bold '>Genres</h1>
@@ -98,7 +99,7 @@ console.log(genre)
         <img className='w-72' src={imagePath} alt="" />
       </div>
     </div>
-    <div className='h-screen bg-black'>
+    <div className='h-96 bg-black'>
       <SimilarMovies></SimilarMovies>
     </div>
     </div>
