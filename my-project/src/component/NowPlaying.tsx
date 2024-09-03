@@ -61,7 +61,7 @@ function NowPlaying() {
       modules={[Navigation]}
       className="mySwiper"
       breakpoints={{
-        410: {
+        110: {
           slidesPerView: 2,
           slidesPerGroup: 2,
         },
@@ -82,8 +82,8 @@ function NowPlaying() {
          {Data.map((elem, index) => (
             <SwiperSlide key={index} className='flex justify-center items-center'>
                 <Link to={`/InfoMovie/${elem.Id}`}>
-            <div key={index} className='pt-2 cursor-pointer text-white flex flex-col text-center w-56 transition ease-in-out hover:scale-110 max-[640px]:w-40'>
-                <img className='w-56 rounded-lg ' src={elem.Image} alt="" />
+            <div key={index} className='pt-2 cursor-pointer max-w-56 text-white flex flex-col text-center w-full transition ease-in-out hover:scale-110 max-[640px]:w-40'>
+                <img className='max-w-56 w-full rounded-lg ' src={elem.Image} alt="" />
             <h1>{elem.Title}</h1>
             </div>
             </Link>

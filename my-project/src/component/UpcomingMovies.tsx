@@ -61,7 +61,7 @@ function TopRatingMovies() {
       modules={[Navigation]}
       className="mySwiper"
       breakpoints={{
-        410: {
+        110: {
           slidesPerView: 2,
           slidesPerGroup: 2,
         },

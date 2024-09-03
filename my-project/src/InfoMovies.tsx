@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import YouTube from 'react-youtube';
 import Navigation from './component/Navigation';
 import SimilarMovies from './SimilarMovies';
+import YouTubeVid from './component/Youtube';
 
 interface DataYouTube{
   Id_YT:string;
@@ -21,33 +22,27 @@ function InfoMovies() {
 
   const { id } = useParams();
   const [Data,SetData] = useState<Data | null >(null)
-  const [DataYT,SetDataYT] = useState<DataYouTube[]>([])
+
   const [Loading,setLoading] = useState(true)
   const [Image,setImage] = useState('')
   const imagePath = `https://image.tmdb.org/t/p/original${Image}`;
   const [genre,setGenre] = useState<string[]>([])
 
 
-    const opts = {
-      height: window.innerWidth < 480 ? '180' : window.innerWidth < 768 ? '340' : '500',
-      width: window.innerWidth < 480 ? '300' : window.innerWidth < 768 ? '600' : '900',
-  }
-   
-
-  useEffect(()=>{
-    async function GetDataYoutube() {
-      try{
-        const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&api_key=1d64987033e87e832914c3294d337cef`)
-        console.log(response.data.results[0].key)
-        SetDataYT([{ Id_YT: response.data.results[0].key }]);
-        setLoading(false)
-      }
-      catch(error){
-        console.log(error)
-      }
-    }
-    GetDataYoutube()
-  },[])
+  // useEffect(()=>{
+  //   async function GetDataYoutube() {
+  //     try{
+  //       const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&api_key=1d64987033e87e832914c3294d337cef`)
+  //       console.log(response.data.results[0].key)
+  //       SetDataYT([{ Id_YT: response.data.results[0].key }]);
+  //       setLoading(false)
+  //     }
+  //     catch(error){
+  //       console.log(error)
+  //     }
+  //   }
+  //   GetDataYoutube()
+  // },[])
   
   
   useEffect(()=>{
@@ -57,6 +52,9 @@ function InfoMovies() {
      setImage(response.data.poster_path)
      const genres = response.data.genres.map((elem: any) => elem.name);
         setGenre(genres);
+        setTimeout(()=>{
+          setLoading(false)
+        },300)
       SetData({
         id:response.data.id,
         NameTitle:response.data.original_title,
@@ -78,8 +76,10 @@ console.log(genre)
     ) : (
       <div className='bg-black h-screen'>
     <Navigation></Navigation>
-    <div className='flex justify-center items-center h-screen max-[640px]:items-start max-[640px]:py-40 max-[640px]:h-40'>
-    <YouTube videoId={DataYT[0].Id_YT} opts={opts}  />
+    <div className='flex justify-center items-center h-screen max-[640px]:items-start max-[640px]:py-20 max-[640px]:h-96'>
+      <div className='py-6'>
+      <YouTubeVid></YouTubeVid>
+    </div>
     </div>
     <div className='bg-black h-screen justify-center flex items-center p-6 max-[640px]:flex-col-reverse'>
       <div key={Data?.id} className='text-white flex justify-center items-start flex-col max-w-160 w-full max-[640px]:pt-6 px-4 '>
@@ -99,7 +99,7 @@ console.log(genre)
         <img className='w-72' src={imagePath} alt="" />
       </div>
     </div>
-    <div className='h-96 bg-black'>
+    <div className='h-96 bg-black pt-10'>
       <SimilarMovies></SimilarMovies>
     </div>
     </div>

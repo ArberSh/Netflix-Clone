@@ -3,13 +3,15 @@ import NetflixLogo from "../assets/png-clipart-netflix-logo-netflix-television-s
 import SearchLogo from "../assets/SearchLogo.svg";
 import ProfileLogo from "../assets/ProfileLogo.png";
 import LogOut from "../assets/LogOut.svg";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 function Navigation() {
     const [scroll,setScroll] = useState<boolean>(false)
-    
+    const [Input, setInput] = useState('');
+    const navigate = useNavigate();
+
     function Scroll() {
         if (window.scrollY >= 10) {
           setScroll(true);
@@ -17,7 +19,25 @@ function Navigation() {
           setScroll(false);
         }
       }
-    
+
+      function Clicked(){
+        alert('clicked')
+      }
+      
+      const Enter = (e:any) => {
+        if (e.key === "Enter") {
+          Click();
+        }
+      };
+
+      const Click = () => {
+        if (Input.length == 0) {
+          alert('error')
+        } else {
+          navigate(`/Search/${Input}`)
+        }
+        console.log(Input)
+      };
      
     
       useEffect(() => {
@@ -36,12 +56,14 @@ function Navigation() {
             />
             </Link>
             <input
+              onChange={(e) => setInput(e.target.value)}
+              onKeyUp={Enter}
               type="text"
               className="mx-6 bg-black bg-opacity-0 w-full max-w-160 text-white outline-none h-6 text-lg"
               placeholder="Movies Tv Shows Search History"
             />
             <div className="flex justify-center items-center">
-              <button className="px-2">
+              <button onClick={Clicked} className="px-2">
                 <img className="min-w-6" src={SearchLogo} alt="" />
               </button>
               <Link to={'/Account'} className="px-2">

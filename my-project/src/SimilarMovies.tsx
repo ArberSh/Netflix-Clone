@@ -54,8 +54,8 @@ console.log(Data)
   return (
     <>
     {Loading ?  <div>hi</div> : 
-    <div className='  px-1/2'>
-        <div className='text-white flex flex-row justify-center items-center flex-wrap px-56 max-[1080px]:px-32 max-[710px]:px-12'>
+    <div className='py-6  px-1/2 bg-black'>
+        <div className='text-white flex flex-row justify-center items-center flex-wrap px-56 max-[1080px]:px-32 max-[710px]:px-12 '>
         <div className='flex justify-start items-start w-full pb-6'>
         <h1 className='text-white text-xl font-bold px-10 '>Similar Movies</h1>
         </div>
@@ -84,7 +84,7 @@ console.log(Data)
             <SwiperSlide className=''>
                 <button onClick={refreshPage}>
                 <Link to={`/InfoMovie/${elem.IdMovie}`}>
-            <div className='w-40  flex flex-col items-center justify-center' key={index}>
+            <div className='w-full max-w-40 flex flex-col items-center justify-center' key={index}>
                 <img className='w-full max-w-40' src={elem.imagePath} alt="" />
                 <h1> {elem.NameTitle} </h1>
                 
