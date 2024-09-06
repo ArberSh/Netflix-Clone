@@ -1,3 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.shimmer {
+    animation:shimmer 2s infinite linear;
+    background:linear-gradient(to right, #2c2c2c, #333 , #2c2c2c 36%) ;
+    background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+    0%{
+        background-position: -1000px 0;
+    }
+    100%{
+        background-position:1000px 0 ;
+    }
+}
+
+.transparent {
+    background-color: transparent;
+}
+
+.width200 {
+    width: 100%;
+    max-width: 40rem; 
+    background-color: black;
+}
+
