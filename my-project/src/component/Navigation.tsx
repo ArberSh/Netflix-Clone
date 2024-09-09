@@ -35,6 +35,7 @@ function Navigation() {
           alert('error')
         } else {
           navigate(`/Search/${Input}`)
+          window.location.reload()
         }
         console.log(Input)
       };

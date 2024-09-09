@@ -9,22 +9,46 @@ interface Information {
   Poster_path:string;
 }
 
+const forbiddenKeywords: string[] = ['nudity', 'erotic', 'sexual']; 
+const excludedGenres: number[] = [10749, 18];
+
 function Search() {
 
+    
     const {name} = useParams()
     const [Data,SetData] = useState<Information[]>([])
 
     useEffect(()=>{
         async function GetData(){
         const response = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=1d64987033e87e832914c3294d337cef&query=${name}&language=en-US&page=1&include_adult=false`)
-        console.log(response.data.results[0].poster_path)
+        
+        console.log(response.data.results)
         const getdata = response.data.results
+        const filteredData = getdata.filter((movie: any) => {
+          // Check for forbidden keywords in the overview or title
+          const hasForbiddenKeyword = forbiddenKeywords.some(keyword =>
+            movie.overview.toLowerCase().includes(keyword) || movie.title.toLowerCase().includes(keyword)
+          );
 
-        const newdata = getdata.map((elem:any)=>({
-          idMovie:elem.id,
-          Title:elem.title,
-          Poster_path:`https://image.tmdb.org/t/p/original${elem.poster_path}`
-        }))
+          // Check for excluded genres
+          const hasExcludedGenre = movie.genre_ids.some((genreId: number) => excludedGenres.includes(genreId));
+
+          // Only include movies that do not have forbidden content
+          return !hasForbiddenKeyword && !hasExcludedGenre;
+        });
+
+        // Map filtered results to the desired structure
+        const newdata = filteredData.map((elem: any) => ({
+          idMovie: elem.id,
+          Title: elem.title,
+          Poster_path: elem.poster_path
+            ? `https://image.tmdb.org/t/p/original${elem.poster_path}`
+            : 'https://via.placeholder.com/200x300?text=No+Image', // Fallback image
+          Overview: elem.overview,
+          Genre_ids: elem.genre_ids
+        }));
+
+
         SetData(newdata)
         console.log(Data[0].Poster_path)
       } 
@@ -34,27 +58,17 @@ function Search() {
 
     console.log(name)
   return (
-    <div className='bg-black h-screen p-4'>
+    <div className='bg-black h-full p-4'>
       <Navigation></Navigation>
-      <div className='size-28 bg-red flex justify-center items-center'>
-        <div className='size-10 bg-black flex justify-start items-center'>
-          <div className='size-5 bg-gray'></div>
-        </div>
-      </div>
-      <div className='flex justify-center items-center '>
-      <div className=' flex justify-start items-center text-white flex-wrap pt-16 gap-4 bg-black'>
-        <div className='flex justify-center items-center text-white flex-wrap pt-16 gap-4 bg-black'>
+      <div className='flex justify-center items-center flex-wrap pt-16'>
 {Data.map((elem:any)=>(
-          <div key={elem.idMovie} className='bg-black flex justify-center items-center flex-col max-w-72 w-full m-4'>
+          <div key={elem.idMovie} className=' flex justify-center items-center flex-col max-w-72 w-full m-4'>
           <img className='max-w-72 w-full' src={elem.Poster_path} alt="" />
           <h1>{elem.Title}</h1>
           </div>
         ))}
         </div>
-        
-      </div>
-      </div>
-      </div>
+        </div>
   )
 }
 
