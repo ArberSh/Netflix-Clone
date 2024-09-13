@@ -4,6 +4,9 @@ import SearchLogo from "../assets/SearchLogo.svg";
 import ProfileLogo from "../assets/ProfileLogo.png";
 import LogOut from "../assets/LogOut.svg";
 import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, signOut } from "firebase/auth";
+import { Navigate } from 'react-router-dom';
+
 
 
 
@@ -11,6 +14,11 @@ function Navigation() {
     const [scroll,setScroll] = useState<boolean>(false)
     const [Input, setInput] = useState('');
     const navigate = useNavigate();
+    
+
+    function SignOut(){
+      navigate(`/`)
+  };
 
     function Scroll() {
         if (window.scrollY >= 10) {
@@ -70,7 +78,7 @@ function Navigation() {
               <Link to={'/Account'} className="px-2">
                 <img className="w-6 min-w-6" src={ProfileLogo} alt="" />
               </Link>
-              <button className="px-2">
+              <button onClick={SignOut} className="px-2">
                 <img className="min-w-6" src={LogOut} alt="" />
               </button>
             </div>

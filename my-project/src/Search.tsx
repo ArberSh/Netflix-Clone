@@ -9,39 +9,33 @@ interface Information {
   Poster_path: string;
 }
 
-// Forbidden keywords that may hint at nudity or inappropriate content
 const forbiddenKeywords: string[] = ['nudity', 'erotic', 'sexual', 'explicit', 'nude', 'adult'];
-// Excluded genres that might often contain nudity (e.g., Romance, Drama)
-const excludedGenres: number[] = [10749, 18]; // Romance and Drama as examples
+const excludedGenres: number[] = [10749, 18]; 
 
 function Search() {
   const { name } = useParams<{ name: string }>();
   const [Data, SetData] = useState<Information[]>([]);
+  const [Loading,SetLoading] = useState<boolean>(true)
 
   useEffect(() => {
     async function GetData() {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/search/movie?api_key=1d64987033e87e832914c3294d337cef&query=${name}&language=en-US&page=1&include_adult=false`
+          `https://api.themoviedb.org/3/discover/movie?api_key=1d64987033e87e832914c3294d337cef&certification_country=US&certification.lte=PG-13&include_adult=false&with_genres=16,10751&without_genres=18,10749&sort_by=popularity.desc`
         );
 
         const getdata = response.data.results;
 
-        // Filter movies based on forbidden keywords in title or overview and excluded genres
         const filteredData = getdata.filter((movie: any) => {
-          // Check if the overview or title contains forbidden keywords
           const hasForbiddenKeyword = forbiddenKeywords.some((keyword) =>
             (movie.overview || '').toLowerCase().includes(keyword) || (movie.title || '').toLowerCase().includes(keyword)
           );
 
-          // Check if any of the movie's genres match the excluded genres
           const hasExcludedGenre = movie.genre_ids?.some((genreId: number) => excludedGenres.includes(genreId));
 
-          // Only include movies that do not have forbidden keywords or excluded genres
           return !hasForbiddenKeyword && !hasExcludedGenre;
         });
 
-        // Map the filtered results to the structure your app needs
         const newdata = filteredData.map((elem: any) => ({
           idMovie: elem.id,
           Title: elem.title,
@@ -49,7 +43,9 @@ function Search() {
             ? `https://image.tmdb.org/t/p/original${elem.poster_path}`
             : 'https://via.placeholder.com/200x300?text=No+Image', // Fallback image if there's no poster
         }));
-
+        setTimeout(()=>{
+          SetLoading(false)
+        },300)
         SetData(newdata);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -59,10 +55,13 @@ function Search() {
     if (name) {
       GetData();
     }
-  }, [name]); // Dependency on 'name' ensures this runs when the search term changes
+  }, [name]);
 
   return (
-    <div className='bg-black h-full p-4'>
+    <div className='bg-black h-full '>
+    {Loading ? <div className='bg-black h-screen shimmer'> 
+      </div> 
+      : <div className='p-4'>
       <Navigation />
       <div className='flex justify-center items-center flex-wrap pt-16'>
         {Data.length > 0 ? (
@@ -78,8 +77,10 @@ function Search() {
           ))
         ) : (
           <p className='text-white'>No results found for "{name}".</p>
-        )}
+        )}</div>
       </div>
+    }
+    
     </div>
   );
 }
