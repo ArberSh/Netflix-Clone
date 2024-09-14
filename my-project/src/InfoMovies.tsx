@@ -1,14 +1,11 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import YouTube from 'react-youtube';
 import Navigation from './component/Navigation';
 import SimilarMovies from './SimilarMovies';
 import YouTubeVid from './component/Youtube';
 
-interface DataYouTube{
-  Id_YT:string;
-}
+
 
 interface Data {
   id:number;
