@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import NetflixLogo from "../assets/png-clipart-netflix-logo-netflix-television-show-streaming-media-film-netflix-logo-television-text-thumbnail-removebg-preview.png";
 import SearchLogo from "../assets/SearchLogo.svg";
 import ProfileLogo from "../assets/ProfileLogo.png";
@@ -7,10 +7,16 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 
+
 function Navigation() {
     const [scroll,setScroll] = useState<boolean>(false)
     const [Input, setInput] = useState('');
     const navigate = useNavigate();
+    
+
+    function SignOut(){
+      navigate(`/`)
+  };
 
     function Scroll() {
         if (window.scrollY >= 10) {
@@ -35,6 +41,7 @@ function Navigation() {
           alert('error')
         } else {
           navigate(`/Search/${Input}`)
+          window.location.reload()
         }
         console.log(Input)
       };
@@ -69,7 +76,7 @@ function Navigation() {
               <Link to={'/Account'} className="px-2">
                 <img className="w-6 min-w-6" src={ProfileLogo} alt="" />
               </Link>
-              <button className="px-2">
+              <button onClick={SignOut} className="px-2">
                 <img className="min-w-6" src={LogOut} alt="" />
               </button>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState,useEffect, ChangeEvent } from "react";
+import { useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import Logo from "../src/assets/png-clipart-netflix-logo-netflix-television-show-streaming-media-film-netflix-logo-television-text-thumbnail-removebg-preview.png";
 import { auth,db } from "./init";
@@ -35,10 +35,8 @@ function Introduction({SetFirstName, SetLastName, SetEmail1} : IntroductionProps
     const [ErrorMessage,setErrorMessage] = useState<boolean>(false)
     const [Email,SetEmail] = useState<string>("")
     const [Password,SetPassword] = useState<string>("")
-    const [Firstname,SetFirstname] = useState<string>("")
-    const [Lastname,SetLastname] = useState<string>("")
 
-    const { register,handleSubmit,formState:{errors},watch,setValue,getValues } = useForm<FormFields>();
+    const { register,handleSubmit,formState:{errors},watch,setValue } = useForm<FormFields>();
     const navigate = useNavigate();
     
     const onSubmit: SubmitHandler<FormFields> = (data) => {
@@ -101,7 +99,6 @@ function Introduction({SetFirstName, SetLastName, SetEmail1} : IntroductionProps
   }
   SetEmail1(Email)
 
-  console.log(Email + ' ' + Firstname + ' ' + Lastname)
   async function SignIn(){
     try{
       SetLoading(true)

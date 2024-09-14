@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { Link} from 'react-router-dom';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -12,8 +12,6 @@ interface Information{
 
 function SimilarMovies() {
 
-    const { id } = useParams()
-    const [Image,setImage] = useState()
     const [Data,SetData] = useState<Information[]>([])
     const [Loading,SetLoading] = useState(true)
 
@@ -23,7 +21,7 @@ function SimilarMovies() {
     useEffect(()=>{
         async function GetData() {
           try {
-            const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/similar?language=en-US&page=1&api_key=1d64987033e87e832914c3294d337cef`) 
+            const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=1d64987033e87e832914c3294d337cef&certification_country=US&certification.lte=PG-13&include_adult=false&with_genres=16,10751&without_genres=18,10749&sort_by=popularity.desc`) 
             const Data = response.data.results
             
            const newData = Data.map((elem:any)=>({
