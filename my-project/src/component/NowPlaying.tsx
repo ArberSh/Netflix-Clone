@@ -1,6 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import InfoMovie from '../InfoMovies'
+import { useEffect, useState } from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -23,7 +22,6 @@ interface Information {
 function NowPlaying() {
 
     const [Data,SetData] = useState<Information[]>([])
-    const [Image,SetImage] = useState<string>('')
     
 
     useEffect(()=>{

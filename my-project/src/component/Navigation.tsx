@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import NetflixLogo from "../assets/png-clipart-netflix-logo-netflix-television-show-streaming-media-film-netflix-logo-television-text-thumbnail-removebg-preview.png";
 import SearchLogo from "../assets/SearchLogo.svg";
 import ProfileLogo from "../assets/ProfileLogo.png";
 import LogOut from "../assets/LogOut.svg";
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signOut } from "firebase/auth";
-import { Navigate } from 'react-router-dom';
 
 
 

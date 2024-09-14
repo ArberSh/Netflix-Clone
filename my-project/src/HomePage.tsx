@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import  {  useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import Navigation from "./component/Navigation";
@@ -19,8 +19,6 @@ interface Information {
 }
 
 function HomePage() {
-  const [image1, SetImage] = useState<string>("");
-  const mountedRef = useRef<boolean>(true);
   const [Data, SetData] = useState<Information | null>(null);
   const imagePath = `https://image.tmdb.org/t/p/original${Data?.Image}`;
   const [Loading, SetLoading] = useState<boolean>(true);
