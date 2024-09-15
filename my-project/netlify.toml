@@ -1,0 +1,6 @@
+[[headers]]
+for = "/*.js"
+  [headers.values]
+  Content-Type = "application/javascript"
+  [build]
+  publish = "my-project/dist"
