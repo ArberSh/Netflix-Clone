@@ -74,6 +74,10 @@ function HomePage() {
     document.body.style.overflowY = "auto";
   }
 
+  function PlayClick(){
+    alert(`Sorry, It was not planned to do this`)
+  }
+
   return (
     <>
       {Loading ? (
@@ -96,7 +100,7 @@ function HomePage() {
                 {Data?.description}
               </p>
               <div className="flex gap-4 mt-6">
-                <button className="bg-white text-black p-2 flex items-center justify-center gap-1">
+                <button onClick={PlayClick} className="bg-white text-black p-2 flex items-center justify-center gap-1">
                   <img className="w-5" src={Play} alt="" />
                   <h2 className="text-base font-semibold">Play</h2>
                 </button>
