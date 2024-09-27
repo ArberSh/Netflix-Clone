@@ -1,14 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-
+import{ useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import '../Swiper-Edit.css'
-
-// import required modules
 import { Navigation } from 'swiper/modules';
 import { Link } from 'react-router-dom';
 
@@ -22,7 +17,6 @@ interface Information {
 function TopRatingMovies() {
 
     const [Data,SetData] = useState<Information[]>([])
-    const [Image,SetImage] = useState<string>('')
     
 
     useEffect(()=>{

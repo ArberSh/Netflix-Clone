@@ -1,4 +1,3 @@
-import React from 'react'
 import Navigation from './component/Navigation'
 import ProfileLogo from './assets/ProfileLogo.png'
 

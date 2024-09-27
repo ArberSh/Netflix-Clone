@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -22,7 +22,6 @@ interface Information {
 function TopRatingMovies() {
 
     const [Data,SetData] = useState<Information[]>([])
-    const [Image,SetImage] = useState<string>('')
     
 
     useEffect(()=>{
